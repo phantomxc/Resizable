@@ -3,13 +3,24 @@ Resizable = Class.create();
     Resizable.prototype = {
     
         initialize: function(elm) {
+            /*
+                Method:initialize
+
+                Create a new resizable object
+
+                Parameters:
+                    elm - The Element to make resizable
+                    options - Additional optional arguments available to be passed in as an object
+            */
             
             var defaults = {
                 onStart: null,
-                onEnd: null
+                onEnd: null,
+                'default_style':true,
+                'default_class':'resizer'
             }
 
-            this.options = Object.extend(defaults, arguments[1] || { });
+            this.options = Object.extend(defaults, arguments[1] || {});
 
             if (this.options.onStart) {
                 this.onStart = this.options.onStart;
@@ -19,16 +30,25 @@ Resizable = Class.create();
                 this.onEnd = this.options.onEnd;
             }
 
-            //CONTAINER
+            //Container
             this.c = elm;
             this.c.setStyle({'position':'relative'});
-            this.resizer = new Element('div', {'class':'resizer'});
-            // HIDE and place the resizer to get its dimensions
+            
+            //Resizer Element
+            this.resizer = new Element('div', {'class':this.options['default_class']});
+            if (this.options['default_style']) {
+                this.resizer.writeAttribute({
+                    'style':'width:10px; height:10px; position:absolute; background-color:grey;'
+                });
+            }
+
+            // Hide and place the resizer to get its dimensions
             this.resizer.toggle();
             this.c.insert(this.resizer);
             
             this.setResizer();
-            
+           
+            // Setup Events
             this.resizer.observe('mousedown', function(ev) {
                 if (this.onStart) {
                     this.onStart();
@@ -59,18 +79,23 @@ Resizable = Class.create();
                 }.bind(this));
             }.bind(this));
 
+            // Disable ondragstart
             this.resizer.ondragstart = function() { return false; }
+            // Show resizer now that it's ready
             this.resizer.toggle();
         },
 
         setResizer: function() {
+            /*
+                Method:setResizer
+
+                Position the resizer element in the bottom right hand corner
+                of the container element. 
+            */
+
            
             var r_layout = this.resizer.getLayout();
-            console.log('resizer layout');
-            console.log(r_layout);
             var c_layout = this.c.getLayout();
-            console.log(c_layout.get('padding-box-width'));
-            console.log(r_layout.get('padding-box-width'));
 
             Element.setStyle(this.resizer,{
                 'position':'absolute',
@@ -80,6 +105,15 @@ Resizable = Class.create();
         },
 
         resizing: function(ev) {
+            /*
+                Method:resizing
+
+                Change the dimension of the the container based on the ev argument. 
+
+                Parameters:
+                    ev - The event memo data (mouse coords) that triggered the resizing
+
+            */
             var p = Event.pointer(ev);
             var xdiff = p.x - this.start_x;
             var ydiff = p.y - this.start_y;
@@ -92,6 +126,7 @@ Resizable = Class.create();
             this.start_x = p.x;
             this.start_y = p.y;
             
+            // We moved the container so lets set the resizer to match
             this.setResizer();
         }
 
