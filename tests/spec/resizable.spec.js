@@ -16,7 +16,7 @@ describe("Resizable", function() {
         expect(r.c).toEqual(d);
     });
 
-    it("should have a set up default options", function() {
+    it("should have a set up default options...this could have more tests", function() {
         expect(r.options).toBeDefined();
     });
 
@@ -33,7 +33,6 @@ describe("Resizable", function() {
 
     it("setResizer insert a resizing element in the bottom right hand corner of the c, should account for padding as well", function() {
         expect(r.c.childElements()[0]).toEqual(r.resizer);
-        console.log(r.resizer);
         expect(r.resizer.getStyle('left')).toEqual('140px');
         expect(r.resizer.getStyle('top')).toEqual('140px');
     });
