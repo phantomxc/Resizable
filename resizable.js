@@ -31,7 +31,7 @@ Resizable = Class.create();
                 onStart: null,
                 onEnd: null,
                 'default_style':true,
-                'default_class':'resizer'
+                'class_name':'resizer'
             }
 
             this.options = Object.extend(defaults, arguments[1] || {});
@@ -49,7 +49,7 @@ Resizable = Class.create();
             this.c.setStyle({'position':'relative'});
             
             //Resizer Element
-            this.resizer = new Element('div', {'class':this.options['default_class']});
+            this.resizer = new Element('div', {'class':this.options['class_name']});
             if (this.options['default_style']) {
                 this.resizer.writeAttribute({
                     'style':'width:10px; height:10px; position:absolute; background-color:grey;'

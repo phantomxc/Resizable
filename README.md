@@ -5,7 +5,16 @@ This is a simple class for making HTML elements easily resizable.
 # Usage
 This relies on the [Prototype.js Library](http://prototypejs.org)
 
-Basic usage:
+##Basic usage:
+```
+new Resizable(element [, options]);
+
+element - An id or an element
+options - Optional object with options. See Options.
+```
+
+###Example:
+
 ```
 <script type="text/javascript" src="prototype.js"><script>
 <script type="text/javascript" src="resizable.js"><script>
@@ -17,9 +26,32 @@ Basic usage:
 </script>
 ```
 
-# Advanced Usage
+##Options
+| Option | &nbsp; |
+| ------ | ------ |
+| default_style | Include some default styling for the resizable handle |
+| class_name | Class name for the resizable handle **Default:'resizer'** |
+
+###Advanced Example
 ```
-Optional Arguments
+
+<script type="text/javascript" src="prototype.js"><script>
+<script type="text/javascript" src="resizable.js"><script>
+
+<script type="text/javascript">
+    document.observe('dom:loaded', function(ev) {
+        new Resizable($('elementID'), {
+            'default_style':false,
+            'class_name':'resizable',
+            'onStart: function() {
+                alert('resize start');
+            },
+            'onEnd: function() {
+                alert('resize end');
+            }
+        });
+    });
+</script>
 ```
 
 # License
