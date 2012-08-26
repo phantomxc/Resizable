@@ -27,10 +27,12 @@ options - Optional object with options. See Options.
 ```
 
 ##Options
-| Option | &nbsp; |
 | ------ | ------ |
-| default_style | Include some default styling for the resizable handle |
-| class_name | Class name for the resizable handle **Default:'resizer'** |
+| default_style | **Bool, Default : true**   
+Include some default styling for the resizable handle |
+| class_name | **String, Default : 'resizer'**  
+Class name for the resizable handle |
+
 
 ###Advanced Example
 ```
