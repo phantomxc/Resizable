@@ -61,18 +61,23 @@ Resizable = Class.create();
             this.c.insert(this.resizer);
             
             this.setResizer();
+
+            this.start_count = 0;
            
             // Setup Events
             this.resizer.observe('mousedown', function(ev) {
-                if (this.onStart) {
-                    this.onStart();
-                }
-                
+                    if (this.onStart && this.start_count < 1) {
+                        this.onStart();
+                    }
                 this.c.observe('resizer:mousemove', function(ev) {
                     this.resizing(ev.memo);
                 }.bind(this));
 
                 this.c.observe('resizer:mouseup', function(ev) {
+                    this.start_count = 0;
+                    if (this.onEnd) {
+                        this.onEnd();
+                    }
                     this.c.stopObserving('resizer:mousemove');
                     this.c.stopObserving('resizer:mouseup');
                 }.bind(this));
@@ -86,9 +91,6 @@ Resizable = Class.create();
                 }.bind(this));
                 
                 document.observe('mouseup', function(ev) {
-                    if (this.onEnd) {
-                        this.onEnd();
-                    }
                     this.c.fire('resizer:mouseup', ev);
                 }.bind(this));
             }.bind(this));

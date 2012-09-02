@@ -1,0 +1,25 @@
+<html>
+    <head>
+        <script type="text/javascript" src="tests/lib/prototype.js"></script>
+        <script type="text/javascript" src="resizable.js"></script>
+
+        <script type="text/javascript">
+            document.observe('dom:loaded', function(ev) {
+                new Resizable($('resize_me'), {
+                    'default_style':true,
+                    'class_name':'resizable',
+                    'onStart': function() {
+                        console.log('resize start');
+                    },
+                    'onEnd': function() {
+                        console.log('resize end');
+                    }
+                });
+            });
+        </script>
+    </head>
+    <body>
+        <div id="resize_me" style="width:100px; height:100px; border:1px solid black;"></div>
+    </body>
+</html>
+

@@ -104,11 +104,13 @@ describe("Resizable with options", function() {
     var r 
     var d
     beforeEach(function() {
+        window['onstartfunc'] = 0;
+        window['onendfunc'] = 0;
         d = new Element('div', {'style':'width:100px; height:100px;', 'class':'container'});
         $('body').update(d);
         r = new Resizable(d, {
-            'onStart':function() {window['onstartfunc'] = 1;}, 
-            'onEnd':function() {window['onendfunc'] =2 }
+            'onStart':function() {window['onstartfunc'] += 1;}, 
+            'onEnd':function() {window['onendfunc'] += 1 }
         });
         spyOn(r, 'onStart').andCallThrough();
         spyOn(r, 'onEnd').andCallThrough();
@@ -131,9 +133,31 @@ describe("Resizable with options", function() {
 
             it("should call onEnd", function() {
                 expect(r.onEnd).toHaveBeenCalled();
-                expect(window["onendfunc"]).toEqual(2);
+                expect(window["onendfunc"]).toEqual(1);
+            });
+
+            describe("resizer start again", function() {
+                beforeEach(function() {
+                    r.c.childElements()[0].simulate('mousedown', {'pointerX':'168', 'pointerY':'264'});
+                });
+
+                it("should call onStart", function() {
+                    expect(r.onStart).toHaveBeenCalled();
+                    expect(window["onstartfunc"]).toEqual(2);
+                });
+
+                describe("resizer end again", function() {
+                    beforeEach(function() {
+                        r.c.childElements()[0].simulate('mouseup');
+                    });
+
+                    it("should call onEnd", function() {
+                        expect(r.onEnd).toHaveBeenCalled();
+                        expect(window["onendfunc"]).toEqual(2);
+                    });
+
+                });
             });
         });
-
     });
 });

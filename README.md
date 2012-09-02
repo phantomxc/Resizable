@@ -37,20 +37,20 @@ options - Optional object with options. See Options.
 
 ###Advanced Example
 ```
-
-<script type="text/javascript" src="prototype.js"><script>
-<script type="text/javascript" src="resizable.js"><script>
+//Open example.html to see this in action
+<script type="text/javascript" src="tests/lib/prototype.js"></script>
+<script type="text/javascript" src="resizable.js"></script>
 
 <script type="text/javascript">
     document.observe('dom:loaded', function(ev) {
-        new Resizable($('elementID'), {
-            'default_style':false,
+        new Resizable($('resize_me'), {
+            'default_style':true,
             'class_name':'resizable',
-            'onStart: function() {
-                alert('resize start');
+            'onStart': function() {
+                console.log('resize start');
             },
-            'onEnd: function() {
-                alert('resize end');
+            'onEnd': function() {
+                console.log('resize end');
             }
         });
     });
